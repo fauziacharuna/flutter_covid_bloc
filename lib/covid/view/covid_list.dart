@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_covid_bloc/covid/bloc/covid_bloc.dart';
 import 'package:flutter_covid_bloc/covid/covid.dart';
+import 'package:http/http.dart' as http;
+
 
 class CovidList extends StatefulWidget {
   @override
@@ -27,7 +29,18 @@ class _CovidListState extends State<CovidList> {
         builder: (context, state) {
           switch (state.status) {
             case CovidStatus.failure:
-              return const Center(child: Text('failed to fetch Covid'));
+              // return const Center(child: Text('failed to fetch Covid'));
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Center(child: Text('failed to fetch Covid')),
+                  ElevatedButton(
+                      onPressed: () {
+                        CovidBloc(httpClient: http.Client())..add(CovidFetched());
+                      },
+                      child: Text("Try Again"))
+                ],
+              );
             case CovidStatus.success:
               if (state.covids.isEmpty) {
                 return const Center(child: Text('No Data'));

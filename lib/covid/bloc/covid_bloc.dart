@@ -51,7 +51,8 @@ class CovidBloc extends Bloc<CovidEvent, CovidState> {
               status: CovidStatus.success,
               covids: List.of(state.covids)..addAll(covids),
               hasReachedMax: false);
-    } on Exception {
+    } catch (e) {
+      // throw Exception(e);
       return state.copyWith(status: CovidStatus.failure);
     }
   }
@@ -59,7 +60,7 @@ class CovidBloc extends Bloc<CovidEvent, CovidState> {
   Future<List<Covid>> _fetchCovids([int startIndex = 0]) async {
     final response = await httpClient.get(
       Uri.https(
-        'https://covid19.mathdro.id/api/','confirmed',
+        'https://covid19.mathdro.id','api/confirmed',
         <String, String>{'_start': '$startIndex', '_limit': '$_covidLimit'},
       ),
 
@@ -73,8 +74,15 @@ class CovidBloc extends Bloc<CovidEvent, CovidState> {
           confirmed: json['confirmed'] as int,
           deaths: json['deaths'] as int,
           recovered: json['recovered'] as int,
-          country: json['country'] as String,
+          country: json['countryRegion'] as String,
         );
+        // return Covid(
+        //   id: json['id'] ?? 0,
+        //   confirmed: json['confirmed'] ?? 0,
+        //   deaths: json['deaths'] ?? 0,
+        //   recovered: json['recovered'] ?? 0,
+        //   country: json['countrRegion'] ?? "",
+        // );
       }).toList();
     }
     throw Exception('eror fetching covids');
