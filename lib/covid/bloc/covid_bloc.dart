@@ -11,7 +11,7 @@ part 'covid_event.dart';
 
 part 'covid_state.dart';
 
-const _covidLimit = 20;
+const _covidLimit = 10000;
 
 class CovidBloc extends Bloc<CovidEvent, CovidState> {
   final http.Client httpClient;
@@ -60,12 +60,13 @@ class CovidBloc extends Bloc<CovidEvent, CovidState> {
   Future<List<Covid>> _fetchCovids([int startIndex = 0]) async {
     final response = await httpClient.get(
       Uri.https(
-        'https://covid19.mathdro.id','api/confirmed',
+        'covid19.mathdro.id','api/confirmed',
         <String, String>{'_start': '$startIndex', '_limit': '$_covidLimit'},
       ),
 
     );
     if (response.statusCode == 200) {
+      print(response);
       final body = json.decode(response.body) as List;
       print(body);
       return body.map((dynamic json) {
@@ -77,11 +78,11 @@ class CovidBloc extends Bloc<CovidEvent, CovidState> {
         //   country: json['countryRegion'] as String,
         // );
         return Covid(
-          id: json['id'] ?? 0,
+          id: json['iso3'] ?? "",
           confirmed: json['confirmed'] ?? 0,
           deaths: json['deaths'] ?? 0,
           recovered: json['recovered'] ?? 0,
-          country: json['countrRegion'] ?? "",
+          country: json['countryRegion'] ?? "",
         );
       }).toList();
     }

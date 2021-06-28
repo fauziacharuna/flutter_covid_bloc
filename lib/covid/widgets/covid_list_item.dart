@@ -13,9 +13,10 @@ class CovidListItem extends StatelessWidget {
       child: ListTile(
         leading: Text('${covid.id}', style: textTheme.caption),
         title: Text(covid.country),
-        subtitle: Text('${covid.confirmed}'),
+        subtitle: Text('confirmed : ${covid.confirmed}' '\nDeath : ${covid.deaths}' '\nRecovered : ${covid.recovered}'),
         isThreeLine: true,
         dense: true,
+
         // subtitle: Text('${covid.confirmed}'),
       ),
     );

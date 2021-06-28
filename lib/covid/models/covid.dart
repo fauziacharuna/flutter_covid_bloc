@@ -4,7 +4,7 @@ class Covid extends Equatable {
     required this.id, required this.confirmed, required this.deaths, required this.recovered, required this.country
 });
 
-  final int id;
+  final String id;
   final int confirmed;
   final int deaths;
   final int recovered;
