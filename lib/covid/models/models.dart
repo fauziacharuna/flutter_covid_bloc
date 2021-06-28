@@ -1,0 +1,1 @@
+export 'covid.dart';
