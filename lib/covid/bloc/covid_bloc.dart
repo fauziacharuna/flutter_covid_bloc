@@ -69,20 +69,20 @@ class CovidBloc extends Bloc<CovidEvent, CovidState> {
       final body = json.decode(response.body) as List;
       print(body);
       return body.map((dynamic json) {
-        return Covid(
-          id: json['id'] as int,
-          confirmed: json['confirmed'] as int,
-          deaths: json['deaths'] as int,
-          recovered: json['recovered'] as int,
-          country: json['countryRegion'] as String,
-        );
         // return Covid(
-        //   id: json['id'] ?? 0,
-        //   confirmed: json['confirmed'] ?? 0,
-        //   deaths: json['deaths'] ?? 0,
-        //   recovered: json['recovered'] ?? 0,
-        //   country: json['countrRegion'] ?? "",
+        //   id: json['id'] as int,
+        //   confirmed: json['confirmed'] as int,
+        //   deaths: json['deaths'] as int,
+        //   recovered: json['recovered'] as int,
+        //   country: json['countryRegion'] as String,
         // );
+        return Covid(
+          id: json['id'] ?? 0,
+          confirmed: json['confirmed'] ?? 0,
+          deaths: json['deaths'] ?? 0,
+          recovered: json['recovered'] ?? 0,
+          country: json['countrRegion'] ?? "",
+        );
       }).toList();
     }
     throw Exception('eror fetching covids');
